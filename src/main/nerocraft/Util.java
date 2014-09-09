@@ -21,8 +21,6 @@ public class Util {
      */
     public void disguiseAsPlayer(Player player, String name) {
         PlayerDisguise disguise = new PlayerDisguise(name);
-//        PlayerWatcher watcher = (PlayerWatcher) disguise.getWatcher();
-//        watcher.setSkin(name);
         disguise.setKeepDisguiseOnPlayerDeath(true);
         DisguiseAPI.disguiseToAll(player, disguise);
     }

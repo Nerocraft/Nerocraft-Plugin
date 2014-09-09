@@ -57,56 +57,6 @@ public class EventListener implements Listener {
     Util util = new Util();
     Statistics stats = new Statistics();
 
-//    @EventHandler
-//    public void onCreatureSpawn(CreatureSpawnEvent event) {
-//        if (event.isCancelled()) return;
-//        if (event.getEntityType() == EntityType.ZOMBIE) {
-//            Zombie zombie = (Zombie)event.getEntity();
-//            EntityEquipment zombieInv = zombie.getEquipment();
-            // Experiment - Turn Zombies in sky biome into Giants
-//            if (zombie.getWorld().getBiome((int)zombie.getLocation().getX(), (int)zombie.getLocation().getZ()) == Biome.SKY) {
-//                zombie.getWorld().spawnEntity(zombie.getLocation(), EntityType.GIANT);
-//                zombie.remove();
-//            } else if (rand.nextFloat() <= 0.01F && !zombie.isVillager() && !zombie.isBaby()) zombieInv.setHelmet(new ItemStack(Material.PUMPKIN));
-//        }
-//        if (event.getEntityType() == EntityType.SKELETON) {
-//            Skeleton skel = (Skeleton)event.getEntity();
-            /**			if (rand.nextFloat() <= 0.1F) skel.setSkeletonType(SkeletonType.WITHER); */
-//            EntityEquipment inv = skel.getEquipment();
-            /**			if (rand.nextFloat() >= 0.75F && skel.getSkeletonType() == SkeletonType.NORMAL) Inv.setHelmet(new ItemStack(Material.LEATHER_HELMET));
-			if (rand.nextFloat() >= 0.5F && skel.getSkeletonType() == SkeletonType.NORMAL) Inv.setChestplate(new ItemStack(Material.BRONZE_CHESTPLATE));
-			if (rand.nextFloat() >= 0.5F && skel.getSkeletonType() == SkeletonType.NORMAL) Inv.setLeggings(new ItemStack(Material.BRONZE_LEGGINGS));
-			if (rand.nextFloat() >= 0.75F && skel.getSkeletonType() == SkeletonType.NORMAL) Inv.setBoots(new ItemStack(Material.BRONZE_BOOTS));*/
-//            inv.setItemInHandDropChance((float) 0.05);
-//            inv.setHelmetDropChance((float) 1);
-//            inv.setChestplateDropChance((float) 0.5);
-//            inv.setLeggingsDropChance((float) 0.5);
-//            inv.setBootsDropChance((float) 1);
-//        }
-        // Nerocraft - Everything ported to main code, unneeded
-        //		if (event.getEntityType() == EntityType.PIG_ZOMBIE) {
-        //			PigZombie pz = (PigZombie)event.getEntity();
-        //			if (rand.nextFloat() <= 0.2F) {
-        //				pz.setBaby(true);
-        //				pz.setMaxHealth(15);
-        //				pz.setHealth(15);
-        //			}
-        //			pz.setAngry(true);
-        //		}
-//    }
-/*
-    @EventHandler
-    public void onPlayerDropItem(PlayerDropItemEvent event) {
-        if (event.isCancelled()) return;
-        Material drop = event.getItemDrop().getItemStack().getType();
-        if (drop == Material.WOOD_PLATE
-                || drop == Material.STONE_PLATE
-                || drop == Material.CARROT
-                || drop == Material.POTATO) event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.CLICK, 0.2F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.8F);
-        else event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BAT_TAKEOFF, 0.2F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.25F);
-    }
-*/
-
     @EventHandler
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
         if (event.getPlayer().isInfected()) {
@@ -123,8 +73,6 @@ public class EventListener implements Listener {
         Player player = event.getPlayer();
         if (event.getItem().getType() == Material.GOLDEN_CARROT && player.isInfected()) {
             player.sendMessage(ChatColor.GREEN + "You have been cured from the infection.");
-//            player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 2, true), true); // Moved
-//            player.setInfected(false); // Moved to internal server code for better priority
             DisguiseAPI.undisguiseToAll(player);
         }
     }
@@ -156,53 +104,12 @@ public class EventListener implements Listener {
         }
     }
 
-//    public List<Location> getSphere(Location centerBlock, int radius) {
-//        List<Location> circleBlocks = new ArrayList<Location>();
-//        int bX = centerBlock.getBlockX();
-//        int bY = centerBlock.getBlockY();
-//        int bZ = centerBlock.getBlockZ();
-//
-//        for (int x = bX - radius; x <= bX + radius; x++) {
-//            for (int y = bY - radius; y <= bY + radius; y++) {
-//                for (int z = bZ - radius; z <= bZ + radius; z++) {
-//                    double distance = ((bX - x) * (bX - x)) + ((bY - y) * (bY - y)) + ((bZ - z) * (bZ - z));
-//                    if (distance < (radius * radius)) {
-//                        Location l = new Location(centerBlock.getWorld(), x, y, z);
-//                        circleBlocks.add(l);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return circleBlocks;
-//    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if (player.getGameMode() == GameMode.CREATIVE && player.isOp()) {
             return;
-        }/* else if (!player.isIngame()) {
-            event.setCancelled(true);
-            return;
-        }*/
-//
-//        Material item = player.getItemInHand().getType();
-//        Block block = event.getBlock();
-//        Material blocktype = block.getType();
-//        if (blocktype == Material.CROPS || blocktype == Material.POTATO || blocktype == Material.CARROT) {
-//            if (item == Material.WOOD_HOE || item == Material.STONE_HOE || item == Material.IRON_HOE || item == Material.GOLD_HOE) {
-//                if (block.getData() == CropState.RIPE.getData()) {
-//                    if (!player.isInfected()) {
-//                        return;
-//                    } else {
-//                        player.sendMessage(ChatColor.RED + "You are infected and cannot cut down crops.");
-//                    }
-//                } else {
-//                    player.sendMessage("Not fully grown");
-//                }
-//            }
-//        }
+        }
         event.setCancelled(true);
     }
 
@@ -223,8 +130,6 @@ public class EventListener implements Listener {
             Material itemtype = item.getType();
             Location loc = player.getLocation();
 
-//            player.sendMessage(Double.toString(Math.round(Math.log10(player.getArcheryExp()))));
-//            player.sendMessage(Double.toString(Math.floor(Math.log10(player.getArcheryExp()))));
             if (event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.WOODEN_DOOR && player.isInfected()) {
                 player.sendMessage(ChatColor.RED + "You are infected and cannot interact with doors.");
                 event.setCancelled(true);
@@ -280,7 +185,6 @@ public class EventListener implements Listener {
             if (itemtype == Material.FIREBALL) {
                 if (util.useMana(player, 250, 100)) {
                     util.decreaseStack(player, item);
-//                    player.launchProjectile(Fireball.class);
                     Fireball ball = player.launchProjectile(Fireball.class);
                     if (item.getDurability() == 1) {
                         ball.setGuided(true);
@@ -315,64 +219,7 @@ public class EventListener implements Listener {
             event.setCancelled(true);
         }
     }
-/*
-    @EventHandler
-    public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-        if (event.isCancelled()) return;
-        if (event.getItem().getItemStack().getType() == Material.WOOD_PLATE) {	// Mine v1
-            event.setCancelled(true);
-            if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-            event.getItem().remove();
-            Player player = event.getPlayer();
-            int amount = event.getItem().getItemStack().getAmount();
-            if (amount > 3) amount = 3;
-            player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), amount, false, false);
-        }
-        if (event.getItem().getItemStack().getType() == Material.STONE_PLATE) {	// Mine v2
-            event.setCancelled(true);
-            if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-            event.getItem().remove();
-            Player player = event.getPlayer();
-            int amount = event.getItem().getItemStack().getAmount();
-            if (amount > 3) amount = 3;
-            player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), amount, false, false);
-            player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), amount + 2, false, false);
-        }
-        if (event.getItem().getItemStack().getType() == Material.CARROT) {	// Caltrops v1
-            event.setCancelled(true);
-            if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-            event.getItem().remove();
-            Player player = event.getPlayer();
-            int amount = event.getItem().getItemStack().getAmount();
-            int amplifier = 0;
-            if (amount == 1) amplifier = 0;
-            else if (amount == 3) amplifier = 1;
-            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 300, 0, false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300 * (amplifier + 1), amplifier, false));
-        }
-        if (event.getItem().getItemStack().getType() == Material.POTATO) {	// Caltrops v2
-            event.setCancelled(true);
-            if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-            event.getItem().remove();
-            Player player = event.getPlayer();
-            int amount = event.getItem().getItemStack().getAmount();
-            int amplifier = 0;
-            if (amount == 1) amplifier = 0;
-            else if (amount == 2) amplifier = 1;
-            else if (amount == 3) amplifier = 2;
-            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 300, 0, false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300 * (amplifier + 1), amplifier + 1, false));
-        }
-    }
 
-    @EventHandler
-    public void onItemDespawn(ItemDespawnEvent event) {	//Prevent despawning of items
-        Material item = event.getEntity().getItemStack().getType();
-        if (item == Material.STONE_PLATE) event.setCancelled(true);
-        if (item == Material.CARROT) event.setCancelled(true);
-        if (item == Material.POTATO) event.setCancelled(true);
-    }
-*/
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         event.setDroppedExp(0);
@@ -435,18 +282,6 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().setIngame(false);
-//        Location loc = event.getEntity().getLocation();
-//        World world = loc.getWorld();
-//        Zombie zombie = (Zombie) world.spawnEntity(loc, EntityType.ZOMBIE);
-//        zombie.setBaby(false);
-//        zombie.setVillager(false);
-//        EntityEquipment Inv = zombie.getEquipment();
-//        Inv.setHelmet(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3));
-//        ItemStack helmet = Inv.getHelmet();
-//        SkullMeta meta = (SkullMeta)helmet.getItemMeta();
-//        meta.setOwner(event.getEntity().getName());
-//        helmet.setItemMeta(meta);
-//        Inv.setHelmet(helmet);
     }
 
     @EventHandler
@@ -544,17 +379,7 @@ public class EventListener implements Listener {
                  || victim.getType() == EntityType.PIG_ZOMBIE) event.setDamage(event.getDamage() * 2);
             }
         }
-        //		Bukkit.getPlayer("Neroren").sendMessage(String.valueOf(proj.getLocation().getY()) + "\n" + String.valueOf(victim.getLocation().getY()) + "\n" + String.valueOf(proj.getLocation().getY() - event.getEntity().getLocation().getY()));
     }
-
-    /*  @EventHandler
-    public void onFlightAttempt(PlayerToggleFlightEvent event) {
-		if (!event.isFlying() && event.getPlayer().getGameMode() != GameMode.CREATIVE) {
-			event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.IRONGOLEM_THROW, 10, 0);
-			event.getPlayer().setVelocity(event.getPlayer().getVelocity().add(new Vector(0,0.75,0)));
-			event.setCancelled(true);
-		}
-	}*/
 
     public void randFloat() {
         randFloat = rand.nextFloat();
