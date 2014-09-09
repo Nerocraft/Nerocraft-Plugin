@@ -54,8 +54,6 @@ import org.bukkit.util.Vector;
 public class EventListener implements Listener {
     float randFloat;
     Random rand = new Random();
-    Util util = new Util();
-    Statistics stats = new Statistics();
 
     @EventHandler
     public void onPlayerBedEnter(PlayerBedEnterEvent event) {
@@ -140,8 +138,8 @@ public class EventListener implements Listener {
                 cs.setSpawnedType(EntityType.GOBLIN);
             }
             if (itemtype == Material.SLIME_BALL) {
-                if (util.useMana(player, 500, 100)) {
-                    util.decreaseStack(player, item);
+                if (Util.useMana(player, 500, 100)) {
+                    Util.decreaseStack(player, item);
                     List<Entity> entities = player.getNearbyEntities(5, 5, 5);
                     for (Entity entity : entities) {
                         if (entity instanceof LivingEntity) {
@@ -158,7 +156,7 @@ public class EventListener implements Listener {
             }
             if (itemtype == Material.ENCHANTED_BOOK) {
                 if (item.getDurability() == 1) {
-                    if (util.useMana(player, 800, 300)) {
+                    if (Util.useMana(player, 800, 300)) {
                         loc.getWorld().playSound(loc, Sound.PORTAL_TRAVEL, 1.0F, 1.0F);
                         for (int x = 0; x < 3; x++) {
                             Minion minion = (Minion) loc.getWorld().spawnEntity(loc, EntityType.MINION);
@@ -172,19 +170,19 @@ public class EventListener implements Listener {
                 }
             }
             if (itemtype == Material.SUGAR) {
-                util.decreaseStack(player, item);
+                Util.decreaseStack(player, item);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 200, 1, true), true);
             }
             if (itemtype == Material.NETHER_STAR) {
-                if (util.useMana(player, 700, 100)) {
+                if (Util.useMana(player, 700, 100)) {
                     player.getWorld().strikeLightning(player.getTargetBlock(null, 200).getLocation(), false, true);
                 } else {
                     player.sendMessage(ChatColor.RED + "You do not have enough mana to strike lightning.");
                 }
             }
             if (itemtype == Material.FIREBALL) {
-                if (util.useMana(player, 250, 100)) {
-                    util.decreaseStack(player, item);
+                if (Util.useMana(player, 250, 100)) {
+                    Util.decreaseStack(player, item);
                     Fireball ball = player.launchProjectile(Fireball.class);
                     if (item.getDurability() == 1) {
                         ball.setGuided(true);
@@ -197,8 +195,8 @@ public class EventListener implements Listener {
                 }
             }
             if (itemtype == Material.GLOWSTONE_DUST && !((Entity) player).isOnGround()) {
-                if (util.useMana(player, 600, 100)) {
-                    util.decreaseStack(player, item);
+                if (Util.useMana(player, 600, 100)) {
+                    Util.decreaseStack(player, item);
                     if (player.getFireTicks() > 20) player.setFireTicks(20);
                     player.getWorld().playSound(player.getLocation(), Sound.ENDERDRAGON_WINGS, 2.0F, 0.8F);
                     Vector playervel = new Vector(0, player.getVelocity().getY(), 0);
@@ -225,9 +223,9 @@ public class EventListener implements Listener {
         event.setDroppedExp(0);
         if (event.getEntity().getKiller() != null && event.getEntity().getKiller().getType() == EntityType.PLAYER) {
             Player killer = event.getEntity().getKiller();
-            if (killer != null && !util.isNPC(killer)) {
+            if (killer != null && !Util.isNPC(killer)) {
                 if (event.getEntity() instanceof Animals) {
-                    util.changeBalance(killer, 1);
+                    Util.changeBalance(killer, 1);
                     killer.giveExp(3);
                 } else if (event.getEntity() instanceof Monster) {
                     killer.setMonsterKills(killer.getMonsterKills() + 1);
@@ -237,10 +235,10 @@ public class EventListener implements Listener {
                     }
 
                     if (event.getEntityType() == EntityType.GIANT) {
-                        util.changeBalance(killer, 25);
+                        Util.changeBalance(killer, 25);
                         killer.giveExp(25);
                     } else {
-                        util.changeBalance(killer, 2);
+                        Util.changeBalance(killer, 2);
                     }
                     if (event.getEntityType() == EntityType.ZOMBIE) {
                         Zombie zombie = (Zombie) event.getEntity();
@@ -260,9 +258,9 @@ public class EventListener implements Listener {
                     }
                 } else if (event.getEntityType() == EntityType.PLAYER) {
                     Player victim = (Player) event.getEntity();
-                    if (!util.isNPC(victim)) {
-                        int amount = (int) util.changeBalance(victim, -20);
-                        util.changeBalance(killer, amount);
+                    if (!Util.isNPC(victim)) {
+                        int amount = (int) Util.changeBalance(victim, -20);
+                        Util.changeBalance(killer, amount);
                         if (amount > 0) {
                             killer.sendMessage(ChatColor.BLUE + "Looted " + ChatColor.GREEN + Integer.toString(amount) + " Credits" + ChatColor.BLUE + " from " + victim.getName() + ".");
                         } else {
@@ -273,8 +271,8 @@ public class EventListener implements Listener {
             }
         } else if (event.getEntityType() == EntityType.PLAYER) {
             Player victim = (Player) event.getEntity();
-            if (!util.isNPC(victim)) {
-                util.changeBalance(victim, -20);
+            if (!Util.isNPC(victim)) {
+                Util.changeBalance(victim, -20);
             }
         }
     }
@@ -296,9 +294,9 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        stats.create(event.getPlayer());
+        Statistics.create(event.getPlayer());
         if (event.getPlayer().isInfected()) {
-            util.disguise(event.getPlayer(), DisguiseType.ZOMBIE, true);
+            Util.disguise(event.getPlayer(), DisguiseType.ZOMBIE, true);
         }
     }
 
@@ -358,16 +356,16 @@ public class EventListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            if (player.getHealth() - event.getDamage() <= 0.0D && !player.isInfected() && !util.isNPC(player) && (damager.getType() == EntityType.ZOMBIE || (damager.getType() == EntityType.PLAYER && ((Player) damager).isInfected()))) {
+            if (player.getHealth() - event.getDamage() <= 0.0D && !player.isInfected() && !Util.isNPC(player) && (damager.getType() == EntityType.ZOMBIE || (damager.getType() == EntityType.PLAYER && ((Player) damager).isInfected()))) {
                 event.setDamage(0);
                 player.setInfected(true);
                 player.setHealth(player.getMaxHealth());
                 player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 200, 2, true), true);
                 player.getWorld().playSound(player.getLocation(), Sound.ZOMBIE_INFECT, 2, 1);
                 player.sendMessage(ChatColor.RED + "You have been infected and are now a zombie.");
-                util.disguise(victim, DisguiseType.ZOMBIE, true);
+                Util.disguise(victim, DisguiseType.ZOMBIE, true);
             } else if (player.isInfected() && !DisguiseAPI.isDisguised(player)) {
-                util.disguise(victim, DisguiseType.ZOMBIE, true);
+                Util.disguise(victim, DisguiseType.ZOMBIE, true);
             }
         }
         if (event.getCause() == DamageCause.PROJECTILE) {

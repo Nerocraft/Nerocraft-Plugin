@@ -13,17 +13,17 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 public class Statistics {
-    public HashMap<String, Scoreboard> Scoreboard = new HashMap<String, Scoreboard>();
-    public HashMap<String, Score> expscore = new HashMap<String, Score>();
-    public HashMap<String, Score> archeryscore = new HashMap<String, Score>();
-    public HashMap<String, Score> killsscore = new HashMap<String, Score>();
-    public HashMap<String, Score> deathsscore = new HashMap<String, Score>();
-    public HashMap<String, Score> creditsscore = new HashMap<String, Score>();
-    public HashMap<String, Score> manascore = new HashMap<String, Score>();
-    public HashMap<String, Score> energyscore = new HashMap<String, Score>();
-    public Score exp, archery, kills, deaths, credits, mana, energy;
+    public static HashMap<String, Scoreboard> Scoreboard = new HashMap<String, Scoreboard>();
+    public static HashMap<String, Score> expscore = new HashMap<String, Score>();
+    public static HashMap<String, Score> archeryscore = new HashMap<String, Score>();
+    public static HashMap<String, Score> killsscore = new HashMap<String, Score>();
+    public static HashMap<String, Score> deathsscore = new HashMap<String, Score>();
+    public static HashMap<String, Score> creditsscore = new HashMap<String, Score>();
+    public static HashMap<String, Score> manascore = new HashMap<String, Score>();
+    public static HashMap<String, Score> energyscore = new HashMap<String, Score>();
+    public static Score exp, archery, kills, deaths, credits, mana, energy;
 
-    public void create(Player player){
+    public static void create(Player player){
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
         Objective statistics = board.registerNewObjective("statistics", "dummy");
@@ -58,7 +58,7 @@ public class Statistics {
         Scoreboard.put(player.getName(), board);
     }
 
-    public void update(Player player){
+    public static void update(Player player){
         Score exp = expscore.get(player.getName());
         Score archery = archeryscore.get(player.getName());
         Score kills = killsscore.get(player.getName());
@@ -76,7 +76,7 @@ public class Statistics {
         energy.setScore(Math.round(player.getEnergy()));
     }
 
-    public void set(Player player){
+    public static void set(Player player){
         player.setScoreboard(Scoreboard.get(player.getName()));
     }
 }

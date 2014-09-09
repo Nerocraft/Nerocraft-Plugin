@@ -19,7 +19,7 @@ public class Util {
      * @param player the player to disguise
      * @param name the playername to disguise as
      */
-    public void disguiseAsPlayer(Player player, String name) {
+    public static void disguiseAsPlayer(Player player, String name) {
         PlayerDisguise disguise = new PlayerDisguise(name);
         disguise.setKeepDisguiseOnPlayerDeath(true);
         DisguiseAPI.disguiseToAll(player, disguise);
@@ -34,7 +34,7 @@ public class Util {
      * @return the exact amount that was given (positive) or taken
      * (negative) from the player
      */
-    public double changeBalance(Player player, int amount) {
+    public static double changeBalance(Player player, int amount) {
         String playerName = player.getName();
         double damount = amount;
         if (damount > 0) {
@@ -58,7 +58,7 @@ public class Util {
      * @param player the player to decrease the itemstack from
      * @param item the itemstack
      */
-    public void decreaseStack(Player player, ItemStack item) {
+    public static void decreaseStack(Player player, ItemStack item) {
         if (player.getGameMode() != GameMode.CREATIVE) {
             if (item.getAmount() > 1) {
                 item.setAmount(item.getAmount() - 1);
@@ -76,7 +76,7 @@ public class Util {
      * @param showName if the living entity is a player, should the name be
      * shown onto the disguised entity?
      */
-    public void disguise(Entity entity, DisguiseType type, boolean showName) {
+    public static void disguise(Entity entity, DisguiseType type, boolean showName) {
         MobDisguise disguise = new MobDisguise(type);
         if (showName) {
             FlagWatcher watcher = disguise.getWatcher();
@@ -95,7 +95,7 @@ public class Util {
      * @param cooldown mana cooldown to apply in ticks, default is 100
      * @return true if successful, otherwise false
      */
-    public boolean useMana(Player player, int mana, int cooldown) {
+    public static boolean useMana(Player player, int mana, int cooldown) {
         if (player.getGameMode() == GameMode.CREATIVE) {
             return true;
         } else if (player.getMana() >= mana) {
@@ -114,7 +114,7 @@ public class Util {
      * @param player the player
      * @return true if player is an NPC, otherwise false
      */
-    public boolean isNPC(Player player) {
+    public static boolean isNPC(Player player) {
         return player.hasMetadata("NPC");
     }
 }
