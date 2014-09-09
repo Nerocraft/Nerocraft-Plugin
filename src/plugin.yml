@@ -1,0 +1,21 @@
+name: Nerocraft
+main: main.nerocraft.Main
+author: Oren Iouchavaev (Neroren)
+version: 1.0
+depend: [Vault, LibsDisguises]
+commands:
+   start:
+      description: Use this command to begin playing
+      usage: /<command>
+   explosive:
+      description: Toggle whether you are explosive or not
+      usage: /<command> [player]
+   setingame:
+      description: Sets your ingame state
+      usage: /<command> <true/false> [player]
+   restoremana:
+      description: Restores all mana
+      usage: /<command>
+   restoreenergy:
+      description: Restores all energy
+      usage: /<command>
